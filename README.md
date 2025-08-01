@@ -31,10 +31,36 @@ To enable the donation functionality with Stripe:
 ```
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_publishable_key
 STRIPE_SECRET_KEY=sk_test_your_secret_key
+STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
 ```
 
-4. Replace `pk_test_your_publishable_key` and `sk_test_your_secret_key` with your actual Stripe API keys
+4. Replace the placeholder values with your actual Stripe API keys
 5. For testing, you can use the [Stripe test cards](https://stripe.com/docs/testing#cards) (e.g., 4242 4242 4242 4242)
+
+### Setting up Stripe Webhooks
+
+To properly handle payment events (successful payments, refunds, etc.), you'll need to set up webhooks:
+
+1. Install the [Stripe CLI](https://stripe.com/docs/stripe-cli)
+2. Login to your Stripe account with the CLI:
+   ```
+   stripe login
+   ```
+3. Start listening for webhook events and forward them to your local server:
+   ```
+   stripe listen --forward-to localhost:3000/api/stripe/webhook
+   ```
+4. The command will output a webhook signing secret. Add this to your `.env.local` file:
+   ```
+   STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_from_cli
+   ```
+
+For production, you'll need to:
+1. Go to the [Stripe Dashboard](https://dashboard.stripe.com/webhooks)
+2. Click "Add endpoint"
+3. Enter your webhook URL (e.g., https://yourdomain.com/api/stripe/webhook)
+4. Select the events you want to receive (at minimum: `payment_intent.succeeded` and `payment_intent.payment_failed`)
+5. Get the signing secret and update your environment variables
 
 ## Learn More
 

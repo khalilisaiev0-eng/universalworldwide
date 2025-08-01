@@ -3,12 +3,27 @@ import Stripe from 'stripe';
 
 // Initialize Stripe with the secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2025-07-30.basil', // Use the latest API version
+  apiVersion: '2025-07-30.basil',
 });
+
+// Define the donation request interface
+interface DonationRequest {
+  amount: number;
+  currency: string;
+  donationType: string;
+  donorInfo?: {
+    firstName: string;
+    lastName: string;
+    email: string;
+    country: string;
+    postalCode: string;
+  };
+}
 
 export async function POST(request: Request) {
   try {
-    const { amount, currency, donationType } = await request.json();
+    const data: DonationRequest = await request.json();
+    const { amount, currency, donationType, donorInfo } = data;
 
     // Validation
     if (!amount || amount < 100) { // minimum amount is $1.00
@@ -18,14 +33,58 @@ export async function POST(request: Request) {
       );
     }
 
+    // Create customer if donor info is provided
+    let customerId: string | undefined;
+    if (donorInfo?.email) {
+      try {
+        // Check if customer already exists
+        const customers = await stripe.customers.list({
+          email: donorInfo.email,
+          limit: 1,
+        });
+
+        if (customers.data.length > 0) {
+          // Update existing customer
+          customerId = customers.data[0].id;
+          await stripe.customers.update(customerId, {
+            name: `${donorInfo.firstName} ${donorInfo.lastName}`,
+            address: donorInfo.postalCode ? {
+              country: donorInfo.country,
+              postal_code: donorInfo.postalCode,
+            } : undefined,
+          });
+        } else {
+          // Create new customer
+          const customer = await stripe.customers.create({
+            email: donorInfo.email,
+            name: `${donorInfo.firstName} ${donorInfo.lastName}`,
+            address: donorInfo.postalCode ? {
+              country: donorInfo.country,
+              postal_code: donorInfo.postalCode,
+            } : undefined,
+          });
+          customerId = customer.id;
+        }
+      } catch (error) {
+        console.error('Error managing customer:', error);
+        // Proceed with payment even if customer creation fails
+      }
+    }
+
     // Create a payment intent with the specified amount and currency
     const paymentIntent = await stripe.paymentIntents.create({
       amount,
       currency: currency.toLowerCase(),
-      // Add metadata for tracking the donation type
+      // Add metadata for tracking the donation type and donor info
       metadata: {
         donationType,
+        firstName: donorInfo?.firstName || '',
+        lastName: donorInfo?.lastName || '',
+        email: donorInfo?.email || '',
+        country: donorInfo?.country || '',
       },
+      // Use the customer ID if available
+      customer: customerId,
       // Specify automatic payment methods
       automatic_payment_methods: {
         enabled: true,
