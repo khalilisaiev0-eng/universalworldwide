@@ -3,116 +3,141 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { FiShoppingCart, FiUser, FiSearch } from 'react-icons/fi';
+import Image from 'next/image';
 
 export default function Navbar() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   
   return (
-    <header className="bg-purple-800 text-white p-4">
-      <div className="container mx-auto flex items-center justify-between">
-        <div className="flex items-center">
-          <button 
-            className="md:hidden mr-2"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <svg 
-              className="w-6 h-6" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24" 
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path 
-                strokeLinecap="round" 
-                strokeLinejoin="round" 
-                strokeWidth="2" 
-                d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
-              />
-            </svg>
-          </button>
-          
-          <Link href="/" className="text-2xl font-bold">
-            Universal
-          </Link>
-        </div>
-        
-        <div className="hidden md:flex items-center space-x-4">
-          <Link 
-            href="/" 
-            className={`hover:underline ${pathname === '/' ? 'font-semibold' : ''}`}
-          >
-            Home
-          </Link>
-          <Link 
-            href="/catalog" 
-            className={`hover:underline ${pathname === '/catalog' ? 'font-semibold' : ''}`}
-          >
-            Catalog
-          </Link>
-          <Link 
-            href="/contact" 
-            className={`hover:underline ${pathname === '/contact' ? 'font-semibold' : ''}`}
-          >
-            Contact
-          </Link>
-        </div>
-        
-        <div className="flex items-center space-x-4">
-          <button className="hover:text-gray-200">
-            <FiSearch size={20} />
-          </button>
-          
-          <div className="relative group">
-            <Link href="/account" className="hover:text-gray-200">
-              <FiUser size={20} />
-            </Link>
-          </div>
-          
-          <Link href="/cart" className="hover:text-gray-200 relative">
-            <FiShoppingCart size={20} />
-          </Link>
-          
+    <header>
+      {/* Top navigation bar with language selector and login */}
+      <div className="bg-blue-700 text-white py-2">
+        <div className="container mx-auto px-4 flex justify-between items-center">
           <div className="hidden md:block">
-            <select className="bg-transparent border-none focus:outline-none">
+            <span className="text-sm">Gaza Emergency Relief</span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <select className="bg-transparent border-none text-sm focus:outline-none">
               <option value="en">English</option>
+              <option value="ar">العربية</option>
+              <option value="fr">Français</option>
             </select>
+            <Link href="/login" className="text-sm hover:underline">Login</Link>
+          </div>
+        </div>
+      </div>
+      
+      {/* Main navigation with logo and menu items */}
+      <div className="bg-white shadow-md">
+        <div className="container mx-auto px-4 py-4">
+          <div className="flex justify-between items-center">
+            <div className="flex items-center">
+              <Link href="/" className="flex items-center">
+                <span className="text-blue-700 font-bold text-2xl">Gaza Relief</span>
+              </Link>
+            </div>
+            
+            {/* Desktop menu */}
+            <div className="hidden md:flex items-center space-x-6">
+              <Link 
+                href="/" 
+                className={`text-gray-800 hover:text-blue-700 ${pathname === '/' ? 'font-semibold' : ''}`}
+              >
+                Home
+              </Link>
+              <Link 
+                href="/about" 
+                className={`text-gray-800 hover:text-blue-700 ${pathname === '/about' ? 'font-semibold' : ''}`}
+              >
+                About
+              </Link>
+              <Link 
+                href="/donate" 
+                className={`text-gray-800 hover:text-blue-700 ${pathname === '/donate' ? 'font-semibold' : ''}`}
+              >
+                How To Help
+              </Link>
+              <Link 
+                href="/contact" 
+                className={`text-gray-800 hover:text-blue-700 ${pathname === '/contact' ? 'font-semibold' : ''}`}
+              >
+                Contact
+              </Link>
+              <Link
+                href="/donate-now"
+                className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-md font-medium"
+              >
+                Donate Now
+              </Link>
+            </div>
+            
+            {/* Mobile menu button */}
+            <button 
+              className="md:hidden text-gray-800"
+              onClick={() => setIsOpen(!isOpen)}
+            >
+              <svg 
+                className="w-6 h-6" 
+                fill="none" 
+                stroke="currentColor" 
+                viewBox="0 0 24 24" 
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path 
+                  strokeLinecap="round" 
+                  strokeLinejoin="round" 
+                  strokeWidth="2" 
+                  d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}
+                />
+              </svg>
+            </button>
           </div>
         </div>
       </div>
       
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden mt-4">
-          <nav className="flex flex-col space-y-2">
-            <Link 
-              href="/" 
-              className={`hover:bg-purple-700 px-2 py-1 rounded ${pathname === '/' ? 'font-semibold' : ''}`}
-              onClick={() => setIsOpen(false)}
-            >
-              Home
-            </Link>
-            <Link 
-              href="/catalog" 
-              className={`hover:bg-purple-700 px-2 py-1 rounded ${pathname === '/catalog' ? 'font-semibold' : ''}`}
-              onClick={() => setIsOpen(false)}
-            >
-              Catalog
-            </Link>
-            <Link 
-              href="/contact" 
-              className={`hover:bg-purple-700 px-2 py-1 rounded ${pathname === '/contact' ? 'font-semibold' : ''}`}
-              onClick={() => setIsOpen(false)}
-            >
-              Contact
-            </Link>
-            <div className="py-2">
-              <select className="bg-purple-800 border-none focus:outline-none w-full">
-                <option value="en">English</option>
-              </select>
-            </div>
-          </nav>
+        <div className="md:hidden bg-white border-t">
+          <div className="container mx-auto px-4 py-2">
+            <nav className="flex flex-col">
+              <Link 
+                href="/" 
+                className={`py-2 border-b ${pathname === '/' ? 'text-blue-700 font-semibold' : 'text-gray-800'}`}
+                onClick={() => setIsOpen(false)}
+              >
+                Home
+              </Link>
+              <Link 
+                href="/about" 
+                className={`py-2 border-b ${pathname === '/about' ? 'text-blue-700 font-semibold' : 'text-gray-800'}`}
+                onClick={() => setIsOpen(false)}
+              >
+                About
+              </Link>
+              <Link 
+                href="/donate" 
+                className={`py-2 border-b ${pathname === '/donate' ? 'text-blue-700 font-semibold' : 'text-gray-800'}`}
+                onClick={() => setIsOpen(false)}
+              >
+                How To Help
+              </Link>
+              <Link 
+                href="/contact" 
+                className={`py-2 border-b ${pathname === '/contact' ? 'text-blue-700 font-semibold' : 'text-gray-800'}`}
+                onClick={() => setIsOpen(false)}
+              >
+                Contact
+              </Link>
+              <Link
+                href="/donate-now"
+                className="bg-red-600 text-white py-2 px-4 mt-4 mb-2 text-center rounded-md font-medium"
+                onClick={() => setIsOpen(false)}
+              >
+                Donate Now
+              </Link>
+            </nav>
+          </div>
         </div>
       )}
     </header>
