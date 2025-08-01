@@ -20,6 +20,22 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Stripe Integration Setup
+
+To enable the donation functionality with Stripe:
+
+1. Create a [Stripe account](https://stripe.com) if you don't have one
+2. Get your API keys from the Stripe dashboard
+3. Create a `.env.local` file in the project root with the following content:
+
+```
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_publishable_key
+STRIPE_SECRET_KEY=sk_test_your_secret_key
+```
+
+4. Replace `pk_test_your_publishable_key` and `sk_test_your_secret_key` with your actual Stripe API keys
+5. For testing, you can use the [Stripe test cards](https://stripe.com/docs/testing#cards) (e.g., 4242 4242 4242 4242)
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -38,3 +54,5 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 ## Project Updates
 
 - Fixed Next.js 15 params type error in product dynamic routes
+- Implemented Gaza Emergency Relief donation site
+- Added Stripe payment integration for donations
