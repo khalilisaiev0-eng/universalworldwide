@@ -236,7 +236,7 @@ const DonationFormContent = () => {
       <div className="p-8 text-center">
         <div className="text-3xl font-bold text-green-600 mb-4">Thank You!</div>
         <p className="text-xl">Your donation has been processed successfully.</p>
-        <p className="mt-4">Your generous support will help save lives in Gaza.</p>
+        <p className="mt-4">Your generous support will help Muslims in need around the world.</p>
         <button 
           onClick={() => {
             setSuccess(false);
@@ -261,7 +261,7 @@ const DonationFormContent = () => {
 
   return (
     <form onSubmit={handleSubmit} className="p-6">
-      <h1 className="text-3xl font-bold text-center text-white mb-8">HELP SAVE LIVES IN GAZA</h1>
+      <h1 className="text-3xl font-bold text-center text-white mb-8">HELP SUPPORT THE UMMAH</h1>
 
       {formStep === 1 ? (
         // Step 1: Donation Amount

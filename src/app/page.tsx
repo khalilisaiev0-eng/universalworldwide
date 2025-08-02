@@ -1,139 +1,212 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import StripeCheckoutForm from '@/components/StripeCheckoutForm';
 
 export default function Home() {
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="relative">
-        <div className="absolute inset-0 bg-black opacity-60"></div>
-        <div 
-          className="relative h-[500px] bg-cover bg-center flex items-center"
-          style={{ backgroundImage: "url('/images/S1a241d55e1b84342a1baf602ad0b12d2C.jpg')" }}
-        >
-          <div className="container mx-auto px-4 text-center text-white">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Gaza Emergency Appeal</h1>
-            <p className="text-xl mb-8 max-w-3xl mx-auto">
-              Over 1.7 million people have been displaced in Gaza. 
-              Your donation can provide urgent humanitarian assistance to those in need.
-            </p>
-            <Link 
-              href="/donate-now" 
-              className="bg-red-600 text-white px-8 py-4 rounded-md text-lg font-medium hover:bg-red-700 transition-colors"
-            >
-              Donate Now
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Crisis Overview */}
+      {/* Donation Card Section with Embedded Form */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-10 text-center">Gaza Humanitarian Crisis</h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
-              <div className="text-4xl font-bold text-red-600 mb-2">1.7M+</div>
-              <p className="text-gray-700">People displaced across Gaza</p>
+          <div className="max-w-6xl mx-auto overflow-hidden">
+            <div className="flex flex-col md:flex-row shadow-lg rounded-lg">
+              {/* Left side - Palestine Image */}
+              <div className="md:w-1/2 relative">
+                <img 
+                  src="/images/palestine.jpeg" 
+                  alt="Palestine Support" 
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 p-6 text-white">
+                  <h2 className="text-4xl font-bold">UMMAH EMERGENCY APPEAL</h2>
+                </div>
+              </div>
+              
+              {/* Right side - Donation Form */}
+              <div className="md:w-1/2">
+                <StripeCheckoutForm />
+              </div>
             </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
-              <div className="text-4xl font-bold text-red-600 mb-2">75%</div>
-              <p className="text-gray-700">Of infrastructure has been damaged or destroyed</p>
-            </div>
-            
-            <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center text-center">
-              <div className="text-4xl font-bold text-red-600 mb-2">250,000+</div>
-              <p className="text-gray-700">Children are in need of immediate psychosocial support</p>
-            </div>
-          </div>
-          
-          <div className="mt-12 text-center">
-            <p className="text-lg text-gray-700 max-w-3xl mx-auto mb-8">
-              Families in Gaza need your help now. With limited access to food, water, medicine, and shelter, 
-              your contribution can make a difference in providing essential humanitarian assistance.
-            </p>
-            <Link 
-              href="/about" 
-              className="text-blue-700 font-medium hover:underline"
-            >
-              Learn more about the situation →
-            </Link>
           </div>
         </div>
       </section>
 
       {/* How Your Donation Helps */}
-      <section className="py-16">
+      <section className="py-16 bg-gray-100">
         <div className="container mx-auto px-4">
-          <h2 className="text-3xl font-bold mb-10 text-center">How Your Donation Helps</h2>
+          <h2 className="text-3xl font-bold mb-12 text-center">How Your Donation Helps</h2>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mb-4">
-                <svg className="w-10 h-10 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5 2a1 1 0 011-1h8a1 1 0 011 1v.5h1a1 1 0 011 1V15a1 1 0 01-1 1H5a1 1 0 01-1-1V3.5a1 1 0 011-1h1V2zm7 1H8v2h4V3zm-3 4a2 2 0 11-4 0 2 2 0 014 0zm7 5v2a3 3 0 01-6 0v-2a3 3 0 116 0zM8 14a4 4 0 00-4 4h8a4 4 0 00-4-4z" clipRule="evenodd" />
-                </svg>
+            {/* Emergency Food */}
+            <div className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
+              <div className="h-48 overflow-hidden">
+                <img 
+                  src="/images/1.jpg"
+                  alt="Emergency Food"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Emergency Food</h3>
-              <p className="text-gray-600">Providing essential food supplies to families facing severe food insecurity</p>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-3">Emergency Food</h3>
+                <p className="text-gray-600">Providing essential food supplies to families facing severe food insecurity</p>
+              </div>
             </div>
             
-            <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mb-4">
-                <svg className="w-10 h-10 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                </svg>
+            {/* Clean Water */}
+            <div className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
+              <div className="h-48 overflow-hidden">
+                <img 
+                  src="/images/2.jpg"
+                  alt="Clean Water"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Clean Water</h3>
-              <p className="text-gray-600">Delivering safe drinking water to prevent waterborne diseases</p>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-3">Clean Water</h3>
+                <p className="text-gray-600">Delivering safe drinking water to prevent waterborne diseases</p>
+              </div>
             </div>
             
-            <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mb-4">
-                <svg className="w-10 h-10 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clipRule="evenodd" />
-                </svg>
+            {/* Medical Aid */}
+            <div className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
+              <div className="h-48 overflow-hidden">
+                <img 
+                  src="/images/3.jpg"
+                  alt="Medical Aid"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Medical Aid</h3>
-              <p className="text-gray-600">Supporting emergency healthcare services and medical supplies</p>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-3">Medical Aid</h3>
+                <p className="text-gray-600">Supporting emergency healthcare services and medical supplies</p>
+              </div>
             </div>
             
-            <div className="flex flex-col items-center text-center">
-              <div className="w-20 h-20 rounded-full bg-blue-100 flex items-center justify-center mb-4">
-                <svg className="w-10 h-10 text-blue-700" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
-                </svg>
+            {/* Ummah Support */}
+            <div className="bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:scale-105">
+              <div className="h-48 overflow-hidden">
+                <img 
+                  src="/images/4.jpg"
+                  alt="Ummah Support"
+                  className="w-full h-full object-cover"
+                />
               </div>
-              <h3 className="text-xl font-semibold mb-2">Emergency Shelter</h3>
-              <p className="text-gray-600">Providing temporary shelter and protection for displaced families</p>
+              <div className="p-6">
+                <h3 className="text-xl font-semibold mb-3">Ummah</h3>
+                <p className="text-gray-600">With your help, this platform can become a global force for good — bringing knowledge, compassion, and real support to Muslims everywhere. You're not just giving charity — you're investing in the future of the Ummah.</p>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="bg-blue-700 py-16 text-white">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">Act Now to Save Lives</h2>
-          <p className="text-xl mb-8 max-w-3xl mx-auto">
-            Your support is urgently needed. Every donation, no matter how small, can help provide
-            life-saving assistance to families in Gaza.
-          </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link 
-              href="/donate-now" 
-              className="bg-red-600 text-white px-8 py-4 rounded-md text-lg font-medium hover:bg-red-700 transition-colors"
-            >
-              Donate Now
-            </Link>
-            <Link
-              href="/fundraise"
-              className="bg-white text-blue-700 px-8 py-4 rounded-md text-lg font-medium hover:bg-gray-100 transition-colors"
-            >
-              Start Fundraising
-            </Link>
+      {/* Testimonials Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-12 text-center">What Our Donors Say</h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                  <img 
+                    src="/images/1.jpg" 
+                    alt="Ahmed Khalid" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-bold">Ahmed Khalid</h3>
+                  <p className="text-blue-600 text-sm">United Kingdom</p>
+                </div>
+              </div>
+              <p className="italic text-gray-700">"My donation helped provide clean water to a village in Gaza. The impact was immediate and life-changing for those families."</p>
+            </div>
+            
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                  <img 
+                    src="/images/2.jpg" 
+                    alt="Sarah Johnson" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-bold">Sarah Johnson</h3>
+                  <p className="text-blue-600 text-sm">United States</p>
+                </div>
+              </div>
+              <p className="italic text-gray-700">"I started donating monthly after seeing the difference it makes. The transparency in how funds are used gives me confidence my support matters."</p>
+            </div>
+            
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                  <img 
+                    src="/images/3.jpg" 
+                    alt="Mohammed Ali" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-bold">Mohammed Ali</h3>
+                  <p className="text-blue-600 text-sm">Canada</p>
+                </div>
+              </div>
+              <p className="italic text-gray-700">"After visiting areas receiving aid, I witnessed firsthand how even small donations can transform communities in crisis."</p>
+            </div>
+            
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                  <img 
+                    src="/images/4.jpg" 
+                    alt="Layla Hassan" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-bold">Layla Hassan</h3>
+                  <p className="text-blue-600 text-sm">Australia</p>
+                </div>
+              </div>
+              <p className="italic text-gray-700">"Being able to help families in Gaza during these difficult times has been deeply meaningful. The medical supplies we funded saved lives."</p>
+            </div>
+            
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                  <img 
+                    src="/images/1.jpg" 
+                    alt="Omar Farooq" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-bold">Omar Farooq</h3>
+                  <p className="text-blue-600 text-sm">Germany</p>
+                </div>
+              </div>
+              <p className="italic text-gray-700">"As a doctor, I know how critical these medical supplies are. My donation helped equip a field hospital that serves hundreds daily."</p>
+            </div>
+            
+            <div className="bg-gray-50 p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <div className="flex items-center mb-4">
+                <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
+                  <img 
+                    src="/images/2.jpg" 
+                    alt="Amina Ibrahim" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-bold">Amina Ibrahim</h3>
+                  <p className="text-blue-600 text-sm">France</p>
+                </div>
+              </div>
+              <p className="italic text-gray-700">"Seeing children receive the emergency food packages we helped fund was an emotional moment. Every contribution matters."</p>
+            </div>
           </div>
         </div>
       </section>

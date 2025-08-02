@@ -9,8 +9,8 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Gaza Emergency Appeal | Donate Now",
-  description: "Help provide urgent assistance to the people in Gaza who are facing humanitarian crisis",
+  title: "Ummah Emergency Appeal | Donate Now",
+  description: "Help provide urgent assistance to Muslims around the world who are facing humanitarian crises",
 };
 
 export default function RootLayout({
@@ -27,7 +27,7 @@ export default function RootLayout({
         </main>
         <footer className="bg-gray-100 py-8">
           <div className="container mx-auto px-4 text-center">
-            <p className="text-gray-600">© 2024 Gaza Emergency Relief. All rights reserved.</p>
+            <p className="text-gray-600">© 2024 Ummah Emergency Relief. All rights reserved.</p>
           </div>
         </footer>
       </body>

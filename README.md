@@ -1,84 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ummah Emergency Appeal
+
+This is a donation platform for humanitarian aid causes.
+
+## Environment Setup
+
+Before running the project, you need to set up the environment variables:
+
+1. Create a `.env.local` file in the root directory
+2. Add the following variables:
+
+```
+# Stripe API keys
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_your_publishable_key_here
+STRIPE_SECRET_KEY=sk_your_secret_key_here
+```
+
+3. Replace the placeholder values with your actual Stripe API keys
+
+## Features
+
+- One-time and monthly donation options
+- Stripe integration for secure payments
+- Responsive design for all devices
+- Testimonials section
+- Impact visualization
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+# Install dependencies
+npm install
+
+# Run the development server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+When deploying to a hosting provider (Vercel, Netlify, etc.), make sure to add the environment variables in your project settings.
 
-## Stripe Integration Setup
-
-To enable the donation functionality with Stripe:
-
-1. Create a [Stripe account](https://stripe.com) if you don't have one
-2. Get your API keys from the Stripe dashboard
-3. Create a `.env.local` file in the project root with the following content:
-
-```
-NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_publishable_key
-STRIPE_SECRET_KEY=sk_test_your_secret_key
-STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
-```
-
-4. Replace the placeholder values with your actual Stripe API keys
-5. For testing, you can use the [Stripe test cards](https://stripe.com/docs/testing#cards) (e.g., 4242 4242 4242 4242)
-
-### Setting up Stripe Webhooks
-
-To properly handle payment events (successful payments, refunds, etc.), you'll need to set up webhooks:
-
-1. Install the [Stripe CLI](https://stripe.com/docs/stripe-cli)
-2. Login to your Stripe account with the CLI:
-   ```
-   stripe login
-   ```
-3. Start listening for webhook events and forward them to your local server:
-   ```
-   stripe listen --forward-to localhost:3000/api/stripe/webhook
-   ```
-4. The command will output a webhook signing secret. Add this to your `.env.local` file:
-   ```
-   STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_from_cli
-   ```
-
-For production, you'll need to:
-1. Go to the [Stripe Dashboard](https://dashboard.stripe.com/webhooks)
-2. Click "Add endpoint"
-3. Enter your webhook URL (e.g., https://yourdomain.com/api/stripe/webhook)
-4. Select the events you want to receive (at minimum: `payment_intent.succeeded` and `payment_intent.payment_failed`)
-5. Get the signing secret and update your environment variables
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## Project Updates
-
-- Fixed Next.js 15 params type error in product dynamic routes
-- Implemented Gaza Emergency Relief donation site
-- Added Stripe payment integration for donations
+**Important**: Never commit your Stripe Secret Key to version control.
