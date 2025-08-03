@@ -12,41 +12,21 @@ export default function Navbar() {
   return (
     <header>
       {/* Top navigation bar with links */}
-      <div className="bg-blue-700 text-white py-4">
+      <div className="bg-[#f3fcff] text-gray-800 py-4">
         <div className="container mx-auto px-4 flex justify-between items-center">
-          <span className="text-xl font-medium">Ummah Emergency Relief</span>
+          <div className="flex items-center space-x-3">
+            <Image src="/images/islam.png" alt="Islam Logo" width={40} height={40} />
+            <span className="text-xl font-medium">Ummah Emergency Relief</span>
+          </div>
           
           {/* Desktop menu */}
-          <div className="hidden md:flex items-center space-x-6">
-            <Link 
-              href="/" 
-              className="text-white hover:text-gray-200"
-            >
-              Home
-            </Link>
-            <Link 
-              href="/about" 
-              className="text-white hover:text-gray-200"
-            >
-              About
-            </Link>
-            <Link 
-              href="/donate" 
-              className="text-white hover:text-gray-200"
-            >
-              How To Help
-            </Link>
-            <Link 
-              href="/contact" 
-              className="text-white hover:text-gray-200"
-            >
-              Contact
-            </Link>
+          <div className="hidden md:flex items-center">
+            <span className="text-gray-800 hover:text-blue-600">English</span>
           </div>
           
           {/* Mobile menu button */}
           <button 
-            className="md:hidden text-white"
+            className="md:hidden text-gray-800"
             onClick={() => setIsOpen(!isOpen)}
           >
             <svg 
@@ -72,34 +52,7 @@ export default function Navbar() {
         <div className="md:hidden bg-white border-t">
           <div className="container mx-auto px-4 py-2">
             <nav className="flex flex-col">
-              <Link 
-                href="/" 
-                className={`py-2 border-b ${pathname === '/' ? 'text-blue-700 font-semibold' : 'text-gray-800'}`}
-                onClick={() => setIsOpen(false)}
-              >
-                Home
-              </Link>
-              <Link 
-                href="/about" 
-                className={`py-2 border-b ${pathname === '/about' ? 'text-blue-700 font-semibold' : 'text-gray-800'}`}
-                onClick={() => setIsOpen(false)}
-              >
-                About
-              </Link>
-              <Link 
-                href="/donate" 
-                className={`py-2 border-b ${pathname === '/donate' ? 'text-blue-700 font-semibold' : 'text-gray-800'}`}
-                onClick={() => setIsOpen(false)}
-              >
-                How To Help
-              </Link>
-              <Link 
-                href="/contact" 
-                className={`py-2 border-b ${pathname === '/contact' ? 'text-blue-700 font-semibold' : 'text-gray-800'}`}
-                onClick={() => setIsOpen(false)}
-              >
-                Contact
-              </Link>
+              <span className="py-2 border-b text-gray-800">English</span>
             </nav>
           </div>
         </div>
