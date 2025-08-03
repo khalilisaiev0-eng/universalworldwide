@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 // Initialize Stripe with the secret key
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+const stripeKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
+const stripe = new Stripe(stripeKey, {
   apiVersion: '2025-07-30.basil',
 });
 
@@ -22,6 +23,15 @@ interface DonationRequest {
 
 export async function POST(request: Request) {
   try {
+    // Check for Stripe API key first
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('Missing Stripe secret key. Please set the STRIPE_SECRET_KEY environment variable.');
+      return NextResponse.json(
+        { error: 'Stripe secret key is not configured' },
+        { status: 500 }
+      );
+    }
+    
     const data: DonationRequest = await request.json();
     const { amount, currency, donationType, donorInfo } = data;
 
