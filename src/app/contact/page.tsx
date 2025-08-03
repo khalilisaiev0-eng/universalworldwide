@@ -33,7 +33,7 @@ export default function ContactPage() {
         <div className="max-w-4xl mx-auto">
           <h1 className="text-3xl md:text-4xl font-bold mb-6 text-center">Contact Us</h1>
           <p className="text-center text-gray-600 mb-8">
-            Have questions about our Gaza emergency relief efforts? We're here to help.
+            Have questions about our Gaza emergency relief efforts? We&apos;re here to help.
           </p>
           
           <div className="bg-white rounded-lg shadow-md overflow-hidden">
@@ -197,7 +197,7 @@ export default function ContactPage() {
               <div className="border border-gray-200 rounded-lg p-4">
                 <h3 className="font-medium text-lg mb-2">Can I specify how my donation is used?</h3>
                 <p className="text-gray-600">
-                  Yes, during the donation process you can specify if you'd like your donation to 
+                  Yes, during the donation process you can specify if you&apos;d like your donation to 
                   support specific areas such as food, medical aid, or shelter assistance.
                 </p>
               </div>

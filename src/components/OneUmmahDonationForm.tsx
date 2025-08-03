@@ -84,7 +84,7 @@ const OneUmmahDonationFormContent = () => {
     setError(null);
   };
 
-  const handleCardChange = (event: any) => {
+  const handleCardChange = (event: { error?: { message: string; code?: string } }) => {
     setCardError(event.error ? event.error.message : '');
   };
 
@@ -175,9 +175,15 @@ const OneUmmahDonationFormContent = () => {
         // Handle other payment intent statuses if needed
         console.log('Unexpected payment intent status:', result?.paymentIntent?.status);
       }
-    } catch (error: any) {
-      setError(error.message || 'An unexpected error occurred.');
-      setCardError(error.code || '');
+    } catch (error: unknown) {
+      const errorMsg = error instanceof Error ? error.message : 'An unexpected error occurred.';
+      setError(errorMsg);
+      // TypeScript can't know if error has a code property, so we need to handle it safely
+      if (error && typeof error === 'object' && 'code' in error) {
+        setCardError(error.code as string || '');
+      } else {
+        setCardError('');
+      }
     }
   };
 

@@ -84,7 +84,7 @@ const DonationFormContent = () => {
     setError(null);
   };
 
-  const handleCardChange = (event: any) => {
+  const handleCardChange = (event: { error?: { message: string } }) => {
     setCardError(event.error ? event.error.message : '');
   };
 
@@ -223,8 +223,9 @@ const DonationFormContent = () => {
           setSuccess(true);
         }
       }
-    } catch (err: any) {
-      setError(err.message || 'There was an error processing your payment. Please try again.');
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'There was an error processing your payment. Please try again.';
+      setError(errorMessage);
       console.error(err);
     }
 

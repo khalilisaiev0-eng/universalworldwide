@@ -67,7 +67,7 @@ export default function AboutPage() {
             
             <h2 className="text-2xl font-bold mb-4 mt-8">How You Can Help</h2>
             <p>
-              Your donation can make a real difference in the lives of families in Gaza. Here's how your contribution can help:
+              Your donation can make a real difference in the lives of families in Gaza. Here&apos;s how your contribution can help:
             </p>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6">

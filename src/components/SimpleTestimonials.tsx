@@ -9,7 +9,7 @@ export default function SimpleTestimonials() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           <div className="bg-gray-100 p-6 rounded-lg">
             <p className="italic text-gray-700 mb-4">
-              "My donation helped provide clean water to a village in Gaza. The impact was immediate and life-changing for those families."
+              &ldquo;My donation helped provide clean water to a village in Gaza. The impact was immediate and life-changing for those families.&rdquo;
             </p>
             <div>
               <p className="font-bold">Ahmed Khalid</p>
@@ -19,7 +19,7 @@ export default function SimpleTestimonials() {
           
           <div className="bg-gray-100 p-6 rounded-lg">
             <p className="italic text-gray-700 mb-4">
-              "I started donating monthly after seeing the difference it makes. The transparency in how funds are used gives me confidence my support matters."
+              &ldquo;I started donating monthly after seeing the difference it makes. The transparency in how funds are used gives me confidence my support matters.&rdquo;
             </p>
             <div>
               <p className="font-bold">Sarah Johnson</p>
@@ -29,7 +29,7 @@ export default function SimpleTestimonials() {
           
           <div className="bg-gray-100 p-6 rounded-lg">
             <p className="italic text-gray-700 mb-4">
-              "After visiting areas receiving aid, I witnessed firsthand how even small donations can transform communities in crisis."
+              &ldquo;After visiting areas receiving aid, I witnessed firsthand how even small donations can transform communities in crisis.&rdquo;
             </p>
             <div>
               <p className="font-bold">Mohammed Ali</p>
@@ -39,7 +39,7 @@ export default function SimpleTestimonials() {
           
           <div className="bg-gray-100 p-6 rounded-lg">
             <p className="italic text-gray-700 mb-4">
-              "Being able to help families in Gaza during these difficult times has been deeply meaningful. The medical supplies we funded saved lives."
+              &ldquo;Being able to help families in Gaza during these difficult times has been deeply meaningful. The medical supplies we funded saved lives.&rdquo;
             </p>
             <div>
               <p className="font-bold">Layla Hassan</p>
@@ -49,7 +49,7 @@ export default function SimpleTestimonials() {
           
           <div className="bg-gray-100 p-6 rounded-lg">
             <p className="italic text-gray-700 mb-4">
-              "As a doctor, I know how critical these medical supplies are. My donation helped equip a field hospital that serves hundreds daily."
+              &ldquo;As a doctor, I know how critical these medical supplies are. My donation helped equip a field hospital that serves hundreds daily.&rdquo;
             </p>
             <div>
               <p className="font-bold">Omar Farooq</p>
@@ -59,7 +59,7 @@ export default function SimpleTestimonials() {
           
           <div className="bg-gray-100 p-6 rounded-lg">
             <p className="italic text-gray-700 mb-4">
-              "Seeing children receive the emergency food packages we helped fund was an emotional moment. Every contribution matters."
+              &ldquo;Seeing children receive the emergency food packages we helped fund was an emotional moment. Every contribution matters.&rdquo;
             </p>
             <div>
               <p className="font-bold">Amina Ibrahim</p>

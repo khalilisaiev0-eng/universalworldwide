@@ -22,7 +22,7 @@ export default function CancelPage() {
           <div className="mb-8 p-4 bg-gray-50 border border-gray-200 rounded-lg">
             <h2 className="text-xl font-semibold mb-2">Still Want to Help?</h2>
             <p className="text-gray-700">
-              Even a small contribution can make a significant impact. If you'd like to try again or 
+              Even a small contribution can make a significant impact. If you&apos;d like to try again or 
               explore other ways to support our cause, please use the links below.
             </p>
           </div>

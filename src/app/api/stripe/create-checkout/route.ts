@@ -31,7 +31,7 @@ export async function POST(request: Request) {
     const origin = request.headers.get('origin') || 'http://localhost:3000';
     
     // Создание параметров для Stripe Checkout Session
-    const params: any = {
+    const params: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ['card'],
       line_items: [
         {
@@ -47,7 +47,7 @@ export async function POST(request: Request) {
           quantity: 1,
         },
       ],
-      mode: mode,
+      mode: mode as Stripe.Checkout.SessionCreateParams.Mode,
       success_url: `${origin}/thank-you?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cancel`,
       billing_address_collection: 'auto',
@@ -69,10 +69,11 @@ export async function POST(request: Request) {
     // Возврат ID сессии
     return NextResponse.json({ sessionId: session.id });
     
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Stripe checkout error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Internal server error';
     return NextResponse.json(
-      { error: error.message || 'Internal server error' },
+      { error: errorMessage },
       { status: 500 }
     );
   }
