@@ -1,6 +1,7 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { headers } from 'next/headers';
 import Stripe from 'stripe';
+import { getRawBody } from '@/lib/stripe-webhook';
 
 // Initialize Stripe with the secret key
 const stripeKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
@@ -11,36 +12,68 @@ const stripe = new Stripe(stripeKey, {
 // Stripe webhook secret for verifying the event
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || 'whsec_placeholder';
 
-export async function POST(req: Request) {
-  const body = await req.text();
-  // Get headers safely
-  const signatureHeader = req.headers.get('stripe-signature') || '';
+// This is needed for documentation purposes, though App Router handles this differently
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+};
 
-  let event: Stripe.Event;
-
+export async function POST(req: NextRequest) {
   try {
-    // Verify the webhook signature
-    event = stripe.webhooks.constructEvent(body, signatureHeader, webhookSecret);
-  } catch (err: unknown) {
-    const errorMessage = err instanceof Error ? err.message : 'Unknown error';
-    console.error(`Webhook signature verification failed: ${errorMessage}`);
-    return NextResponse.json(
-      { error: `Webhook Error: ${errorMessage}` },
-      { status: 400 }
-    );
-  }
+    if (!process.env.STRIPE_WEBHOOK_SECRET) {
+      console.error('Missing Stripe webhook secret. Please set the STRIPE_WEBHOOK_SECRET environment variable.');
+      return NextResponse.json(
+        { error: 'Stripe webhook secret is not configured' },
+        { status: 500 }
+      );
+    }
 
-  // Handle different event types
-  try {
+    // Get raw body for Stripe verification
+    const body = await getRawBody(req);
+    // Get headers safely
+    const signatureHeader = req.headers.get('stripe-signature') || '';
+
+    let event: Stripe.Event;
+
+    try {
+      // Verify the webhook signature
+      event = stripe.webhooks.constructEvent(
+        body,
+        signatureHeader,
+        process.env.STRIPE_WEBHOOK_SECRET
+      );
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      console.error(`Webhook signature verification failed: ${errorMessage}`);
+      return NextResponse.json(
+        { error: `Webhook Error: ${errorMessage}` },
+        { status: 400 }
+      );
+    }
+
+    // Handle different event types
     switch (event.type) {
+      case 'checkout.session.completed':
+        const session = event.data.object as Stripe.Checkout.Session;
+        console.log('✅ Payment success for session:', session.id);
+        // TODO: обновить базу данных, активировать доступ и т.д.
+        await handleCheckoutSessionCompleted(session);
+        break;
       case 'payment_intent.succeeded':
         await handlePaymentIntentSucceeded(event.data.object as Stripe.PaymentIntent);
         break;
-      
       case 'payment_intent.payment_failed':
         await handlePaymentIntentFailed(event.data.object as Stripe.PaymentIntent);
         break;
-        
+      case 'invoice.paid':
+        console.log('💰 Подписка оплачена');
+        // TODO: обновить базу данных для подписки
+        break;
+      case 'invoice.payment_failed':
+        console.log('❌ Ошибка оплаты подписки');
+        // TODO: уведомить пользователя об ошибке оплаты подписки
+        break;
       // You can add more event handlers here
       default:
         console.log(`Unhandled event type: ${event.type}`);
@@ -55,6 +88,26 @@ export async function POST(req: Request) {
       { status: 500 }
     );
   }
+}
+
+/**
+ * Handle checkout.session.completed event
+ */
+async function handleCheckoutSessionCompleted(session: Stripe.Checkout.Session) {
+  // Extract data from session
+  const customerId = session.customer;
+  const amount = session.amount_total ? session.amount_total / 100 : 0; // Convert from cents to dollars
+  const metadata = session.metadata || {};
+  
+  // Here you would typically:
+  // 1. Record the completed payment in your database
+  // 2. Update the user's subscription status if applicable
+  // 3. Send confirmation email to customer
+  // 4. Update inventory or trigger other business logic
+  
+  console.log(`Payment completed: ${amount} USD`);
+  console.log(`Customer ID: ${customerId}`);
+  console.log('Metadata:', metadata);
 }
 
 /**
