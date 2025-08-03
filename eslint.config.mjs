@@ -22,7 +22,9 @@ const eslintConfig = [
       // Treat img element warnings as warnings not errors
       "@next/next/no-img-element": "warn"
     },
-    ignorePatterns: ["public/**/*", "node_modules/**/*"]
+    // Use files instead of ignorePatterns for flat config format
+    files: ["**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}"],
+    ignores: ["public/**/*", "node_modules/**/*"]
   }
 ];
 
