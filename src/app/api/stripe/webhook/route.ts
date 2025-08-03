@@ -3,12 +3,13 @@ import { headers } from 'next/headers';
 import Stripe from 'stripe';
 
 // Initialize Stripe with the secret key
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
+const stripeKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
+const stripe = new Stripe(stripeKey, {
   apiVersion: '2025-07-30.basil',
 });
 
 // Stripe webhook secret for verifying the event
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || 'whsec_placeholder';
 
 export async function POST(req: Request) {
   const body = await req.text();

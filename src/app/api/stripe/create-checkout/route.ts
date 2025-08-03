@@ -1,12 +1,17 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
-// Инициализация Stripe с секретным ключом (безопасно, только на сервере)
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
+// Initialize Stripe with the secret key (safely, only on server)
+// Add a fallback for development/test environments
+const stripeKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
+const stripe = new Stripe(stripeKey, {
+  apiVersion: '2025-07-30.basil',
+});
 
 export async function POST(request: Request) {
   try {
     if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('Missing Stripe secret key. Please set the STRIPE_SECRET_KEY environment variable.');
       return NextResponse.json(
         { error: 'Stripe secret key is not configured' },
         { status: 500 }
@@ -16,7 +21,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { amount, donationType } = body;
     
-    // Проверка, что сумма и тип пожертвования предоставлены
+    // Check that the amount and donation type are provided
     if (!amount || !donationType) {
       return NextResponse.json(
         { error: 'Amount and donation type are required' },
@@ -24,13 +29,13 @@ export async function POST(request: Request) {
       );
     }
     
-    // Определение параметров в зависимости от типа пожертвования
+    // Determine parameters based on donation type
     const isSubscription = donationType === 'monthly';
     const mode = isSubscription ? 'subscription' : 'payment';
     
     const origin = request.headers.get('origin') || 'http://localhost:3000';
     
-    // Создание параметров для Stripe Checkout Session
+    // Create Stripe Checkout Session parameters
     const params: Stripe.Checkout.SessionCreateParams = {
       payment_method_types: ['card'],
       line_items: [
@@ -41,7 +46,7 @@ export async function POST(request: Request) {
               name: isSubscription ? 'Monthly Donation' : 'One-Time Donation',
               description: 'Donation to support humanitarian aid',
             },
-            unit_amount: Math.round(amount * 100), // Конвертация в центы
+            unit_amount: Math.round(amount * 100), // Convert to cents
             ...(isSubscription ? { recurring: { interval: 'month' } } : {}),
           },
           quantity: 1,
@@ -62,11 +67,11 @@ export async function POST(request: Request) {
 
     console.log('Creating Stripe session with params:', JSON.stringify(params));
 
-    // Создание Stripe Checkout Session
+    // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create(params);
     console.log('Session created:', session.id);
 
-    // Возврат ID сессии
+    // Return the session ID
     return NextResponse.json({ sessionId: session.id });
     
   } catch (error: unknown) {
