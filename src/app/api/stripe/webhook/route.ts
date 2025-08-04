@@ -4,13 +4,22 @@ import Stripe from 'stripe';
 import { getRawBody } from '@/lib/stripe-webhook';
 
 // Initialize Stripe with the secret key
-const stripeKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
-const stripe = new Stripe(stripeKey, {
+const stripeKey = process.env.STRIPE_SECRET_KEY;
+// Log for debugging purposes if the key is missing
+if (!stripeKey) {
+  console.error('WARNING: STRIPE_SECRET_KEY is not defined. Please set it in your environment variables.');
+}
+
+const stripe = new Stripe(stripeKey || 'sk_test_placeholder', {
   apiVersion: '2025-07-30.basil',
 });
 
 // Stripe webhook secret for verifying the event
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || 'whsec_placeholder';
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+// Log for debugging purposes if the webhook secret is missing
+if (!webhookSecret) {
+  console.error('WARNING: STRIPE_WEBHOOK_SECRET is not defined. Please set it in your environment variables.');
+}
 
 // This is needed for documentation purposes, though App Router handles this differently
 export const config = {
@@ -25,6 +34,15 @@ export async function POST(req: NextRequest) {
       console.error('Missing Stripe webhook secret. Please set the STRIPE_WEBHOOK_SECRET environment variable.');
       return NextResponse.json(
         { error: 'Stripe webhook secret is not configured' },
+        { status: 500 }
+      );
+    }
+
+    // Check for Stripe API key
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('Missing Stripe secret key. Please set the STRIPE_SECRET_KEY environment variable.');
+      return NextResponse.json(
+        { error: 'Stripe secret key is not configured' },
         { status: 500 }
       );
     }

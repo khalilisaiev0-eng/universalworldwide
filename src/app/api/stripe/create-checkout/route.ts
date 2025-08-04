@@ -3,8 +3,13 @@ import Stripe from 'stripe';
 
 // Initialize Stripe with the secret key (safely, only on server)
 // Add a fallback for development/test environments
-const stripeKey = process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder';
-const stripe = new Stripe(stripeKey, {
+const stripeKey = process.env.STRIPE_SECRET_KEY;
+// Log for debugging purposes if the key is missing
+if (!stripeKey) {
+  console.error('WARNING: STRIPE_SECRET_KEY is not defined. Please set it in your environment variables.');
+}
+
+const stripe = new Stripe(stripeKey || 'sk_test_placeholder', {
   apiVersion: '2025-07-30.basil',
 });
 
@@ -16,6 +21,11 @@ export async function POST(request: Request) {
         { error: 'Stripe secret key is not configured' },
         { status: 500 }
       );
+    }
+
+    // Verify that we have a publishable key for the frontend
+    if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+      console.error('Missing Stripe publishable key. Please set the NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY environment variable.');
     }
     
     const body = await request.json();

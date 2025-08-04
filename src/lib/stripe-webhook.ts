@@ -1,5 +1,4 @@
 import { NextRequest } from 'next/server';
-import { buffer } from 'micro';
 
 // Helper to parse raw body because Next.js App Router doesn't have direct bodyParser option
 export async function getRawBody(request: NextRequest | Request): Promise<string> {
@@ -11,7 +10,7 @@ export async function getRawBody(request: NextRequest | Request): Promise<string
   }
 }
 
-// Alternative using buffer if needed
+// Helper to get buffer from request body
 export async function getBufferedBody(request: NextRequest | Request): Promise<Buffer> {
   const body = await getRawBody(request);
   return Buffer.from(body);
